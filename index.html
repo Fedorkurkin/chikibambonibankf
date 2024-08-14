@@ -1,40 +1,195 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-<title>Naponp</title>
-<style>
-body {
-background-color: lightblue;
-padding: 3px;
-}
-
-.a {
-    text-decoration: none;
-    color: white;
-    background-color: #2874F1;
-    border-radius: 10px;
-}
-</style>
-    <script>
-    function checkPassword() {
-        var password = document.getElementById("passwordBox");
-        var passwordText = password.value;
-        if(passwordText == "jNb23rtg!") {
-            return true;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Квесты в Black Russia</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #0000ff, #00ffff);
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
         }
-        alert("Неправильный Пароль!");
-        return false;
-    }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        li:hover {
+            background-color: #f1f1f1;
+            transform: scale(1.05);
+        }
+        .reward {
+            font-weight: bold;
+            color: #007b00;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .complete-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007b00;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .complete-btn:hover {
+            background-color: #005700;
+        }
+        .completed {
+            color: green;
+        }
+        .not-completed {
+            color: red;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Загрузка состояния выполнения квестов из localStorage
+            const quests = document.querySelectorAll('li');
+            quests.forEach(quest => {
+                const questId = quest.getAttribute('data-id');
+                const isCompleted = localStorage.getItem(questId) === 'true';
+                if (isCompleted) {
+                    quest.classList.add('completed');
+                    quest.classList.remove('not-completed');
+                    quest.innerHTML = quest.innerHTML.replace('Не выполнено', 'Выполнено');
+                }
+            });
+        });
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+        function completeQuest(modalId) {
+            document.getElementById(modalId).style.display = "none";
+            var listItem = document.querySelector("li[onclick=\"openModal('" + modalId + "')\"]");
+            listItem.classList.add("completed");
+            listItem.classList.remove("not-completed");
+            listItem.innerHTML = listItem.innerHTML.replace("Не выполнено", "Выполнено");
+
+            // Сохранение состояния выполнения квеста в localStorage
+            const questId = listItem.getAttribute('data-id');
+            localStorage.setItem(questId, 'true');
+        }
     </script>
 </head>
 <body>
-            <span class="logo navLogo"><a href="index.html"><img src="Без имени-1.png" width="300"></a></span>
-    <p>Для входа в банк Введите пароль!</p>
-    Логин: Fedor
-    <p>Пароль: <input id="passwordBox" type="password"/></p>
-    <a href="main.html" onclick="return checkPassword();" class="a">
-    <h2>Проверить
-</a>
-</body>
-</html>
+    <div class="container">
+        <h1>Квесты в Black Russia</h1>
+        <ul>
+            <li class="not-completed" data-id="quest1" onclick="openModal('modal1')">Начальный квест - <span class="reward">1000 рублей</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest2" onclick="openModal('modal2')">Квест на получение прав - <span class="reward">Водительские права</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest3" onclick="openModal('modal3')">Квест на получение работы - <span class="reward">Работа</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest4" onclick="openModal('modal4')">Квест на покупку дома - <span class="reward">Дом</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest5" onclick="openModal('modal5')">Квест на покупку машины - <span class="reward">Машина</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest6" onclick="openModal('modal6')">Квест на получение лицензии на оружие - <span class="reward">Лицензия на оружие</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest7" onclick="openModal('modal7')">Квест на вступление в банду - <span class="reward">Членство в банде</span> - <span>Не выполнено</span></li>
+            <li class="not-completed" data-id="quest8" onclick="openModal('modal8')">Квест на получение VIP-статуса - <span class="reward">VIP-статус</span> - <span>Не выполнено</span></li>
+        </ul>
+    </div>
+
+    <!-- Модальные окна -->
+    <div id="modal1" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal1')">&times;</span>
+            <h2>Начальный квест</h2>
+            <p>Подробности: Выполните начальный квест, чтобы получить 1000 рублей.</p>
+            <p>Как выполнить: Следуйте инструкциям на экране, чтобы завершить квест.</p>
+            <button class="complete-btn" onclick="completeQuest('modal1')">Выполнил</button>
+        </div>
+    </div>
+
+    <div id="modal2" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal2')">&times;</span>
+            <h2>Квест на получение прав</h2>
+            <p>Подробности: Пройдите обучение и сдайте экзамен, чтобы получить водительские права.</p>
+            <p>Как выполнить: Посетите автошколу и следуйте инструкциям.</p>
+            <button class="complete-btn" onclick="completeQuest('modal2')">Выполнил</button>
+        </div>
+    </div>
+
+    <div id="modal3" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal3')">&times;</span>
+            <h2>Квест на получение работы</h2>
+            <p>Подробности: Найдите работу, чтобы начать зарабатывать деньги.</p>
+            <p>Как выполнить: Посетите центр занятости и выберите доступную работу.</p>
+            <button class="complete-btn" onclick="completeQuest('modal3')">Выполнил</button>
+        </div>
+    </div>
+
+    <div id="modal4" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal4')">&times;</span>
+            <h2>Квест на покупку дома</h2>
+            <p>Подробности: Купите дом, чтобы получить место для проживания.</p>
+            <p>Как выполнить: Найдите агентство недвижимости и выберите дом для покупки.</p>
+            <button class="complete-btn" onclick="completeQuest('modal4')">Выполнил</button>
+        </div>
+    </div>
+
+    <div id="modal5" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('modal5')">&times;</
+
 
